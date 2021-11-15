@@ -67,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="services\AutoresService.cs" />
+    <Compile Include="services\LibrosService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PruebaApi.DTO\PruebaApi.DTO.csproj">

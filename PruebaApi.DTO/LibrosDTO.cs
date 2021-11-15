@@ -15,5 +15,7 @@ namespace PruebaApi.DTO
 
         public int? AnnioPublicacion { get; set; }
         public string Genero { get; set; }
+
+        public string Nombre_Autor { get; set; }
     }
 }
