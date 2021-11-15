@@ -5,17 +5,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AAF00B2F-13A8-488E-A623-E60B7929C88A}</ProjectGuid>
+    <ProjectGuid>{28EBE426-3CDA-4BF7-AA15-B514709F30C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PruebaApi.Modelo</RootNamespace>
-    <AssemblyName>PruebaApi.Modelo</AssemblyName>
+    <RootNamespace>PruebaApi.Service</RootNamespace>
+    <AssemblyName>PruebaApi.Service</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,15 +41,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.Scaffolding.EntityFramework.12.0, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Entity.Design" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Web.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,10 +52,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Autores.cs" />
-    <Compile Include="Libros.cs" />
+    <Compile Include="AutoresService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PruebaApiModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PruebaApi.DTO\PruebaApi.DTO.csproj">
+      <Project>{9724735c-c32d-42ca-8997-5bbca130bfba}</Project>
+      <Name>PruebaApi.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PruebaApi.Modelo\PruebaApi.Modelo.csproj">
+      <Project>{aaf00b2f-13a8-488e-a623-e60b7929c88a}</Project>
+      <Name>PruebaApi.Modelo</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
