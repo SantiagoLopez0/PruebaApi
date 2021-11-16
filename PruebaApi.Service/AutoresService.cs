@@ -28,6 +28,7 @@ namespace PruebaApi.Service
                 autorDto.NombreCompleto = item.NombreCompleto;
                 autorDto.FechaNacimiento = item.FechaNacimiento;
                 autorDto.CiudadProcedencia = item.CiudadProcedencia;
+                autorDto.Email = item.Email;
                 response.Add(autorDto);
             }
 

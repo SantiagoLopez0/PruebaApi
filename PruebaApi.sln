@@ -23,6 +23,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaApi.UI", "PruebaApi.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaApi.UI.Service", "PruebaApi.UI.Service\PruebaApi.UI.Service.csproj", "{F53DB352-9C95-4D95-95BE-C89D980005EE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Archivo SQL para DB", "Archivo SQL para DB", "{26DD3D70-8C45-43F4-B648-6208F66378CF}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\OneDrive\Documentos\PruebaTecnicaNexus\ejemplo.sql = ..\..\..\OneDrive\Documentos\PruebaTecnicaNexus\ejemplo.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -4,73 +4,126 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<style>
+    .titleSectionRow {
+        margin-bottom: 20px;
+    }
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>LibrosDTO</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.idLibro, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.idLibro, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.idLibro, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-        @ViewBag.mensaje
-        <div class="form-group">
-            @Html.LabelFor(model => model.NombreLibro, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NombreLibro, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NombreLibro, "", new { @class = "text-danger" })
-            </div>
+    .titleSectionContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h2 {
+        margin-bottom: 5px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .createBookSection {
+        display: flex;
+        justify-content: center;
+    }
+
+    .labelControl {
+        text-align: justify !important;
+    }
+</style>
+
+<div class="row titleSectionRow">
+    <div class="container text-center titleSectionContainer">
+        <h2>Registrar Libros</h2>
+        <div class="row">
+            <button class="btn" onclick="verLibro();">Ver Libros</button>
+            <button class="btn" onclick="verAutor();">Ver Autores</button>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Paginas, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Paginas, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Paginas, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdAutor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.IdAutor, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.DropDownListFor(model => model.IdAutor, ViewBag.AutorId as IEnumerable<SelectListItem>, "Autor", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.ValidationMessageFor(model => model.IdAutor, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AnnioPublicacion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AnnioPublicacion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AnnioPublicacion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Genero, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Genero, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+<hr />
+
+<div class="row createBookSection">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.idLibro, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.idLibro, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.idLibro, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+            @ViewBag.mensaje
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombreLibro, "Nombre del Libro", htmlAttributes: new { @class = "control-label col-md-12 labelControl" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.NombreLibro, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.NombreLibro, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Paginas, "Páginas", htmlAttributes: new { @class = "control-label col-md-12 labelControl" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Paginas, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Paginas, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdAutor, "Nombre del Autor", htmlAttributes: new { @class = "control-label col-md-12 labelControl" })
+                <div class="col-md-12">
+                    @*@Html.EditorFor(model => model.IdAutor, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownListFor(model => model.IdAutor, ViewBag.AutorId as IEnumerable<SelectListItem>, "Autor", htmlAttributes: new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.IdAutor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AnnioPublicacion, "Año de Publicación", htmlAttributes: new { @class = "control-label col-md-12 labelControl" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.AnnioPublicacion, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.AnnioPublicacion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Genero, "Género", htmlAttributes: new { @class = "control-label col-md-12 labelControl", @required = "required" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Genero, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12" style="display: flex; justify-content: space-around;">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                    <button class="btn" onclick="verLibro()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section scripts{
+    <script>
+        function verLibro() {
+            window.location.href = '@Url.Action("Index", "Libros")';
+        }
+
+        function verAutor() {
+            window.location.href = '@Url.Action("Index", "Autores")';
+        }
+    </script>
+
+}

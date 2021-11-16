@@ -4,60 +4,157 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/v4-shims.css">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.idLibro)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NombreLibro)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Paginas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre_Autor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnnioPublicacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Genero)
-        </th>
-        <th></th>
-    </tr>
+<style>
+    table.dataTable thead .sorting_desc:after,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting:after {
+        margin-right: 10px !important;
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.idLibro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NombreLibro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Paginas)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre_Autor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnnioPublicacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Genero)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
+    .titleSectionRow{
+        margin-bottom: 20px;
+    }
+
+    .titleSectionContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .descriptionSection{
+        margin-bottom: 10px;
+    }
+
+    h2{
+        margin-bottom: 5px;
+    }
+
+</style>
+
+<div class="row titleSectionRow">
+    <div class="container text-center titleSectionContainer">
+        <h2>Libros en el sistema</h2>
+        <div class="row">
+            <button class="btn" onclick="registrarLibro();">Registrar Libro</button>
+            <button class="btn" onclick="registrarAutor();">Registrar Autor</button>
+        </div>
+        
+    </div>
+</div>
+
+<hr />
+
+<div class="descriptionSection row container text-center">
+    <p>Esta página te muestra los libros registrados en la base de datos.</p>
+    <p>
+        En el buscador puedes ingresar información como: <strong>Nombre del Libro, Nombre del Autor, Año de publicación o Género</strong> 
+        y automaticamente aparecera el resultado en la tabla.
+    </p>
+</div>
+
+<table class="table table-bordered table-striped" id="table_id">
+    <thead>
+        <tr>
+            <th scope="col">idLibro</th>
+            <th scope="col">Nombre del Libro</th>
+            <th scope="col">Páginas</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Año de Publicación</th>
+            <th scope="col">Género</th>
+        </tr>
+    </thead>
+</table>
+
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.11.3/filtering/row-based/range_dates.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#table_id")
+                .DataTable({
+                    "sAjaxSource": "/Libros/GetData",
+                    //"fnServerData": function (sSource,aoData,fnCallBack) {
+                    //    $.getJSON(sSource,aoData,function (json) {
+                    //        //fnCallBack(json);
+                    //        if (json.error == "error") {
+                    //            swal("Errores en carga", json.trace, "error");
+                    //            //toastr.error("Error en cargue de datos: " + data.trace);
+                    //        }
+                    //        else {
+                    //            fnCallBack(json);
+                    //        }
+                    //    })
+                    //},
+                    "bServerSide": true,
+                    "bProcessing": true,
+                    "bSearchable": true,
+                    "order": [[1, 'asc']],
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
+                        "emptyTable": "No record found.",
+                        "processing":
+                            '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span>Loading...</span> ',
+                        "search": "Filter records:"
+                    },
+                    "columns": [
+                        {
+                            "data": "idLibro",
+                            "autoWidth": true,
+                            "searchable": false,
+                            "rowId": "idLibro",
+                            "visible": false,
+                            "orderable": true
+                        },
+                        {
+                            "data": "NombreLibro",
+                            "autoWidth": true,
+                            "searchable": true,
+                            "orderable": true
+                        },
+                        {
+                            "data": "Paginas",
+                            "autoWidth": false,
+                            "searchable": false,
+                            "orderable": false
+                        },
+                        {
+                            "data": "Nombre_Autor",
+                            "autoWidth": true,
+                            "searchable": true,
+                            "orderable": true
+                        },
+                        {
+                            "data": "AnnioPublicacion",
+                            "autoWidth": true,
+                            "searchable": true,
+                            "orderable": true
+                        },
+                        {
+                            "data": "Genero",
+                            "autoWidth": true,
+                            "searchable": true,
+                            "orderable": true
+                        }
+
+                    ]
+                })
+        });
+
+        function registrarLibro() {
+            window.location.href = '@Url.Action("Create", "Libros")';
+        }
+
+        function registrarAutor() {
+            window.location.href = '@Url.Action("Create", "Autores")';
+        }
+    </script>
 }
 
-</table>

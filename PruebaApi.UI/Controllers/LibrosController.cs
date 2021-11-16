@@ -28,6 +28,76 @@ namespace PruebaApi.UI.Controllers
             return View(response);
         }
 
+        public ActionResult GetData(JqueryDataTableParam param)
+        {
+            List<LibrosDTO> libros = new List<LibrosDTO>();
+            try
+            {
+                libros = (List<LibrosDTO>)_service.GetAsync().Result;
+                if (!string.IsNullOrEmpty(param.sSearch))
+                {
+                    libros = (List<LibrosDTO>)libros.Where(x => (x.NombreLibro.ToLower().Contains(param.sSearch.ToLower()))
+                                                 || (x.Nombre_Autor.ToLower().Contains(param.sSearch.ToLower()))
+                                                 || (x.Genero.ToLower().Contains(param.sSearch.ToLower()))
+                                                 || (Convert.ToString(x.AnnioPublicacion).ToLower().Contains(param.sSearch.ToLower()))).ToList();
+                }
+
+                var sortColumnIndex = Convert.ToInt32(HttpContext.Request.QueryString["iSortCol_0"]);
+                var sortDirection = HttpContext.Request.QueryString["sSortDir_0"];
+
+                if (sortColumnIndex == 1)
+                {
+                    libros = (List<LibrosDTO>)(sortDirection == "asc" ? libros.OrderBy(c => c.NombreLibro) : libros.OrderByDescending(c => c.NombreLibro)).ToList();
+                }
+                else if (sortColumnIndex == 2)
+                {
+                    libros = (List<LibrosDTO>)(sortDirection == "asc" ? libros.OrderBy(c => c.Nombre_Autor) : libros.OrderByDescending(c => c.Nombre_Autor)).ToList();
+                }
+                else if (sortColumnIndex == 3)
+                {
+                    libros = (List<LibrosDTO>)(sortDirection == "asc" ? libros.OrderBy(c => c.AnnioPublicacion) : libros.OrderByDescending(c => c.AnnioPublicacion)).ToList();
+                }
+                else if (sortColumnIndex == 4)
+                {
+                    libros = (List<LibrosDTO>)(sortDirection == "asc" ? libros.OrderBy(c => c.Genero) : libros.OrderByDescending(c => c.Genero)).ToList();
+                }
+                else
+                {
+                    Func<LibrosDTO, string> orderingFunction = e => sortColumnIndex == 0 ? e.Nombre_Autor.ToString() :
+                                                                   sortColumnIndex == 1 ? e.AnnioPublicacion.ToString() :
+                                                                   e.Genero;
+
+                    libros = (List<LibrosDTO>)(sortDirection == "asc" ? libros.OrderBy(orderingFunction) : libros.OrderByDescending(orderingFunction)).ToList();
+                }
+
+                var displayResult = libros.Skip(param.iDisplayStart)
+                    .Take(param.iDisplayLength).ToList();
+                var totalRecords = libros.Count();
+
+                JsonResult response = Json(new
+                {
+                    param.sEcho,
+                    iTotalRecords = totalRecords,
+                    iTotalDisplayRecords = totalRecords,
+                    aaData = displayResult
+                }, JsonRequestBehavior.AllowGet);
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                JsonResult response = Json(new
+                {
+                    error = "error",
+                    //trace = "Sin conexión a Base de Datos - Verifique VPN o Red !" //ex.ToString()
+                    trace = ex.ToString()
+                }, JsonRequestBehavior.AllowGet);
+                return response;
+
+                throw;
+            }
+        }
+
         // GET: Libros/Details/5
         public async Task<ActionResult> Details(int id)
         {

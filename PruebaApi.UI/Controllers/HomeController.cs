@@ -10,7 +10,8 @@ namespace PruebaApi.UI.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            //return View();
+            return RedirectToAction("Index", "Libros");
         }
 
         public ActionResult About()

@@ -46,11 +46,13 @@ namespace PruebaApi.UI.Controllers
             {
                 // TODO: Add insert logic here
                 var response = await _service.InsertAsync(autor);
+                ViewBag.Error = "";
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
             {
                 string abc = ex.ToString();
+                ViewBag.Error = "Error en el registro del Autor";
                 return View();
             }
         }
